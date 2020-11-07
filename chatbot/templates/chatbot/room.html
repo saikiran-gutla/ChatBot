@@ -12,7 +12,7 @@
 <script src="{% static 'reconnecting-websocket.js' %}"></script>
 <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
-        var username =  '{{ username }}'
+        var username =  '{{ username }}';
         const chatSocket = new ReconnectingWebSocket(
             'ws://'
             + window.location.host

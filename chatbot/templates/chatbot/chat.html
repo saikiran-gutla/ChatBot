@@ -106,7 +106,7 @@
                                  class="rounded-circle user_img_msg">
                         </div>
                         <div class="msg_cotainer" id="chat-log">
-                            Hi, how are you samim?
+                            Hi, how are you?
                             <span class="msg_time">8:40 AM, Today</span>
                         </div>
                     </div>
@@ -128,9 +128,9 @@
                             <textarea name="" class="form-control type_msg" id="chat-message-input"
                                       placeholder="Type your message..."></textarea>
                             <div class="input-group-append">
-                                <span class="input-group-text send_btn" >
+                                <span class="input-group-text send_btn">
                                     <input type="submit"
-                                        class="fas fa-location-arrow" id="chat-message-submit">
+                                           class="fas fa-location-arrow" id="chat-message-submit">
                                 </span>
                             </div>
                         </div>
@@ -142,7 +142,8 @@
 </div>
 <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
-        var username =  {{ username }};
+        var username =  '{{ username }}';
+        var room_name = '{{ room_name }}';
         const chatSocket = new ReconnectingWebSocket(
             'ws://'
             + window.location.host
@@ -150,13 +151,42 @@
             + roomName
             + '/'
         );
-
+        chatSocket.onopen = function(e){
+        fetchMessages();
+        }
         chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            console.log(data);
-
+            var dataa = JSON.parse(e.data);
+            console.log("ON MESSAGE : "+dataa);
+            if (dataa['command'] === 'messages'){
+                console.log("Entered IF Block");
+                for(let i=0; i<dataa['messages'].length;i++){
+                createMessage(dataa['messages'][i]);
+                }
+                }else if(dataa['command'] === 'new_message'){
+                    console.log("Entered ELSEIF Block");
+                    createMessage(dataa['messages']);
+                }
+            };
+        function createMessage(data){
+            console.log('CREATE MESSAGE FUNCTION : '+data);
+            var author = data['message']['author'];
+            console.log('Author : '+data);
+            var msg_cotainer = document.createElement('li');
+            var imgTag = document.createElement('img');
+            var pTag = document.createElement('p');
+            imgTag.src = "{% static 'siddi.jpg '%}";
+            if (author === username){
+                msg_cotainer.className = 'msg_cotainer';
+            }
+            else{
+                 msg_cotainer.className = 'msg_cotainer_send';
+            }
+            msg_cotainer.appendChild(imgTag);
+            msg_cotainer.appendChild(pTag);
+            msg_cotainer.appendChild(imgTag);
+            document.querySelector().appendChild(msg_cotainer);
             document.querySelector('#chat-log').value += (data.message.content + '\n');
-        };
+        }
 
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
@@ -179,6 +209,14 @@
             }));
             messageInputDom.value = '';
         };
+
+
+        function fetchMessages(){
+         chatSocket.send(JSON.stringify({'command':'fetch_messages'}));
+        }
+
+
+
 
 
 </script>

@@ -8,9 +8,10 @@ import json
 def index(request):
     return render(request, 'chatbot/index.html')
 
+
 @login_required
 def room(request, room_name):
-    return render(request, 'chatbot/room.html', {
+    return render(request, 'chatbot/chat.html', {
         'room_name': room_name,
         "username": request.user.username
     })
