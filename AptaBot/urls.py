@@ -20,4 +20,6 @@ from chatbot import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('chatbot.urls')),
+    path('chat-api/', include('chatbot.api.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 ]
