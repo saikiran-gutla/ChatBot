@@ -206,13 +206,13 @@
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
-
-        document.querySelector('#chat-message-input').focus();
+<!--        document.querySelector('#chat-message-input').focus();-->
         document.querySelector('#chat-message-input').onkeyup = function(e)
         {
-            console.log('typing');
-            typingUser('True');
-            if (e.keyCode === 13) {  // enter, return
+<!--            console.log('typing');-->
+<!--            typingUser('True');-->
+            if (e.keyCode === 13)
+            {  // enter, return
                 document.querySelector('#chat-message-submit').click();
                 typingUser('False');
             }
@@ -234,14 +234,27 @@
 <!--            typingUser('False');-->
 <!--            });-->
 <!--        });-->
+        $('#chat-message-input').focus(function(){
+            console.log('typing');
+            typingUser('True');
+        });
+
+        $("#chat-message-input").blur(function(){
+            console.log('not typing');
+            typingUser('False');
+        });
+
 
         function fetchMessages(){
          chatSocket.send(JSON.stringify({'command':'fetch_messages'}));
         }
 
         function typingUser(typing_status){
-         chatSocket.send(JSON.stringify({'command':'typing','type_status':typing_status}));
+         chatSocket.send(JSON.stringify({'command':'typing',
+                                         'type_status':typing_status}));
         }
+
+
 
 
 

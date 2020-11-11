@@ -2,8 +2,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 
-from .models import Chat, Contact
-
 
 # Create your views here.
 def index(request):

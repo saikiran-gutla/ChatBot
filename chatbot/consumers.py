@@ -50,11 +50,11 @@ class ChatConsumer(WebsocketConsumer):
         author = self.scope['user']
         print('THIS IS SET STATUS', data, "USER ", author)
         author_user = User.objects.filter(username=author)[0]
-        connection_stauts = ConnectionHistory.objects.filter(user=author_user).values('user', 'typing_status', 'status',
-                                                                                      'last_echo')
-        print(f"T- DATA : {connection_stauts}")
+        connection_status = ConnectionHistory.objects.filter(user=author_user).values('user', 'typing_status', 'status',
+                                                                         'last_echo')
+        print(f"T- DATA : {connection_status}")
         print('THIS IS AUTHOR USER', author_user)
-        for q in connection_stauts:
+        for q in connection_status:
             print(f"ASDF: {q}")
             content = {
                 'messages': self.status_to_json(q)
