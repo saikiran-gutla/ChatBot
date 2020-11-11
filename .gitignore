@@ -3,6 +3,6 @@ AptaBotVenv/
 AptaBot/__pycache__/
 chatbot/__pycache__/
 chatbot/migrations/__pycache__/
-chatbot/migrations/
 chatbot/api/__pycache__/
+chatbot/migrations/
 db.sqlite3
